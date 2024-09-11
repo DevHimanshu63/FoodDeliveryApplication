@@ -1,5 +1,5 @@
 import foodModel from "../models/foodModel.js";
-
+import fs  from "fs";
 export const AddFood = async ( req , res) =>{
     if(!req.file){
         return res.status(400).json({ message: "No file uploaded", success: false });
@@ -21,6 +21,30 @@ export const AddFood = async ( req , res) =>{
     }catch(e){
         console.log(e)
         res.status(400).json({message:"food is not saved successfully" , success:false});
+    }
+}
+
+export const getList =async( req , res )=>{
+    try{
+        const foods =  await foodModel.find({});
+        res.status(200).json({message:"food successfully fetched" , data:foods , success:true});
+    }catch(err){
+        console.log(err);
+        res.status(401).json({message:"food successfully not fetched" , success:false});
+    }
+}
+
+export const removeFood = async(req  , res )=>{
+    const {id} = req.body;
+    try{    
+        const food = await foodModel.findById(id);
+        fs.unlink(`uploads/${food.image}` , ()=>{});
+        await foodModel.findByIdAndDelete(id);
+        res.status(200).json({message:"food successfully removed" , success:true});
+    }catch(err){
+        console.log(err);
+        res.status(401).json({message:"food successfully not removed" , success:false});
+        
     }
 }
 
