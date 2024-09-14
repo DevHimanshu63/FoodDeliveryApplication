@@ -1,6 +1,7 @@
 import foodModel from "../models/foodModel.js";
 import fs  from "fs";
 export const AddFood = async ( req , res) =>{
+    console.log("Add food", req.body);
     if(!req.file){
         return res.status(400).json({ message: "No file uploaded", success: false });
     }
@@ -35,7 +36,7 @@ export const getList =async( req , res )=>{
 }
 
 export const removeFood = async(req  , res )=>{
-    const {id} = req.body;
+    const {id} = req.query;
     try{    
         const food = await foodModel.findById(id);
         fs.unlink(`uploads/${food.image}` , ()=>{});

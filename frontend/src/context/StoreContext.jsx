@@ -6,6 +6,7 @@ export const storeContext = createContext(null);
 export const StoreContextProvider = (props) => {
 
     const [cartItems , setcartItems] = useState('');
+    const [token , setToken] = useState('')
 
     useEffect(()=>{
         console.log('cartItems',cartItems);
@@ -46,7 +47,9 @@ export const StoreContextProvider = (props) => {
         setcartItems,
         addtoCart,
         removefromCart,
-        getTotalAmount
+        getTotalAmount,
+        token,
+        setToken,
     }
 
     return (
